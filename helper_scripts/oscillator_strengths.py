@@ -28,3 +28,55 @@ def oscillator_strength_convergence(filenames):
 	ax2.set_xlabel('Iteration')
 	ax2.set_ylabel('Diff of Oscillator Strength Sum')
 	plt.show()
+
+def oscillator_strengths_momentum(efilename, pfilename, nbands, starting_band=1, sumband1=1, sumband2=2):
+	
+	energies = np.fromfile(efilename)
+	data = np.fromfile(pfilename, dtype = complex).reshape(1, 3, nbands, nbands).swapaxes(2, 3)
+	#data_short = np.sum(np.abs(data[0, ...])**2, axis = 0 )
+	data_short = np.zeros((nbands, nbands))
+	for b in range(0, nbands):
+		for c in range(0, nbands):
+			data_short[b, c] = np.abs(data[0, 0, b, c])**2+ np.abs(data[0, 1, b, c])**2+ np.abs(data[0, 2, b, c])**2 
+
+	#print(data_short)
+	starting_band_p = data_short[starting_band, :]
+	
+	f=0	
+	for i in range(sumband1, sumband2):
+		if (i != starting_band):
+			f = f + 2/3*starting_band_p[i]/(energies[i]-energies[starting_band])
+	#print("Oscillator Strength is: ", f)
+	#print(starting_band_p)		
+	#return starting_band_p
+	return f
+
+
+def oscillator_strengths_momentum_convergence(efilename, pfilename, nbands, starting_band=1):
+	energies = np.fromfile(efilename)
+	data = np.fromfile(pfilename, dtype = complex).reshape(1, 3, nbands, nbands).swapaxes(2, 3)
+        #data_short = np.sum(np.abs(data[0, ...])**2, axis = 0 )
+	data_short = np.zeros((nbands, nbands))
+	for b in range(0, nbands):
+		for c in range(0, nbands):
+			data_short[b, c] = np.abs(data[0, 0, b, c])**2+ np.abs(data[0, 1, b, c])**2+ np.abs(data[0, 2, b, c])**2
+
+        #print(data_short)
+	starting_band_p = data_short[starting_band, :]
+
+	fs = np.zeros(nbands)
+	for sumband2 in range(nbands):
+		f=0
+		for i in range(1, sumband2):
+			if (i != starting_band):
+				f = f + 2/3*starting_band_p[i]/(energies[i]-energies[starting_band])
+		fs[sumband2] = f
+	#print("Oscillator Strength is: ", f)
+	#print(starting_band_p)
+	#return starting_band_p
+	return fs
+
+
+
+
+
