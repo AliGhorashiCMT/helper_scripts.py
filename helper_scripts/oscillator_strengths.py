@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+
 def oscillator_strength(filename):
 	data = np.loadtxt(filename, skiprows=6)
 	fig, ax = plt.subplots()
@@ -8,7 +9,6 @@ def oscillator_strength(filename):
 	ax.set_ylabel('Oscillator Strength')
 	plt.show()
 	print("Check oscillator strength sum rule: ", np.sum(2/3*data[:, 3]*data[:, 6]))
-
 
 def oscillator_strength_convergence(filenames):
 	strengths = np.array([])
@@ -78,7 +78,7 @@ def oscillator_strengths_momentum_convergence(efilename, pfilename, nbands, star
 	fs = np.zeros(nbands)
 	for sumband2 in range(nbands):
 		f=0
-		for i in range(1, sumband2):
+		for i in range(0, sumband2):
 			if (i != starting_band):
 				f = f + 2/3*starting_band_p[i]/(energies[i]-energies[starting_band])
 		fs[sumband2] = f
