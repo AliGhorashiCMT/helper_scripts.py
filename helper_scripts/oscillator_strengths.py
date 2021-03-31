@@ -29,6 +29,17 @@ def oscillator_strength_convergence(filenames):
 	ax2.set_ylabel('Diff of Oscillator Strength Sum')
 	plt.show()
 
+
+def oscillator_strength_convergence2(filename):
+	data = np.loadtxt(filename, skiprows=6)
+	strengths = np.array([])
+	num_excitations = np.shape(data)[0]
+	print("Number of possible excitations is: ", num_excitations)
+	for i in range(num_excitations):
+		strengths = np.append(strengths, np.sum(2/3*data[0:i, 3]*data[0:i, 6]))
+
+	return strengths
+
 def oscillator_strengths_momentum(efilename, pfilename, nbands, starting_band=1, sumband1=1, sumband2=2):
 	
 	energies = np.fromfile(efilename)
