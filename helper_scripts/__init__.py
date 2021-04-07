@@ -10,3 +10,10 @@ from .oscillator_strengths import oscillator_strengths_momentum_convergence
 from .oscillator_strengths import oscillator_strength_convergence2
 from . import compare_momenta
 from .compare_momenta import rpcompare
+
+from . import writing_input
+from .writing_input.writing_input import write_input
+
+from . import AbinitScripts
+
+from . import QuantumEspressoScripts
